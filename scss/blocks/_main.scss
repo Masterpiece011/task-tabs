@@ -57,7 +57,7 @@
     min-width: 698px;
     min-height: 454px;
     box-sizing: border-box;
-    padding: 20px 40px;
+    padding: 20px;
     box-shadow: rgba(0, 0, 0, 0.2) 0 1px 3px 0;
 }
 
@@ -80,7 +80,7 @@
     line-height: 21px;
 }
 
-.main__current-tab-item:last-child{
+.main__current-tab-item:last-child {
     margin-bottom: 0;
 }
 
@@ -151,9 +151,9 @@
 @keyframes changeColor {
     from {
         background-color: rgba(28, 26, 26, 0.15);
-    } 
+    }
+
     to {
         background-color: #fff;
     }
 }
-
