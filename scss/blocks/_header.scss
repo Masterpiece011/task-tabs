@@ -56,4 +56,6 @@
 .header__progress-bar {
     height: 5px;
     background-color: #E9262D;
+    transition: all .7s ease;
+    width: 0;
 }

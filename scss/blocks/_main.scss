@@ -37,7 +37,6 @@
     cursor: pointer;
     font-weight: 400;
     font-size: 14px;
-
     transition: all .1s ease;
 }
 
@@ -128,6 +127,7 @@
     line-height: 24px;
     border: 1px solid rgba(0, 0, 0, 0.2);
     cursor: not-allowed;
+    transition: all .3s ease;
 }
 
 .main__button-continue.active {
@@ -139,6 +139,15 @@
     cursor: pointer;
 }
 
+.main__button-continue.active:hover {
+    background-color: #73BE43;
+}
+
+.main__button-continue.active:hover:active {
+    background-color: #92e161;
+    transition: all .02s linear;
+}
+
 @keyframes changeColor {
     from {
         background-color: rgba(28, 26, 26, 0.15);
@@ -147,3 +156,4 @@
         background-color: #fff;
     }
 }
+

@@ -117,6 +117,8 @@ body {
 .header__progress-bar {
   height: 5px;
   background-color: #E9262D;
+  transition: all 0.7s ease;
+  width: 0;
 }
 
 .main {
@@ -247,6 +249,7 @@ body {
   line-height: 24px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   cursor: not-allowed;
+  transition: all 0.3s ease;
 }
 
 .main__button-continue.active {
@@ -256,6 +259,15 @@ body {
   animation-timing-function: linear;
   animation-iteration-count: 1;
   cursor: pointer;
+}
+
+.main__button-continue.active:hover {
+  background-color: #73BE43;
+}
+
+.main__button-continue.active:hover:active {
+  background-color: #92e161;
+  transition: all 0.02s linear;
 }
 
 @keyframes changeColor {
