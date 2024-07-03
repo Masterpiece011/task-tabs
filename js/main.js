@@ -1,28 +1,48 @@
 "use strict"
-
+const maxWidth = 1000
 const allTabsIds = []
 let pickedTabsIds = [0]
+
+const allTabsLists = document.querySelectorAll(".js-tabs-list")
+console.log(allTabsLists);
 
 const continueBtn = document.querySelector(".js-continue-btn")
 const allTabsElems = document.querySelectorAll(".js-tabs-item")
 const allCurrentTabListElems = document.querySelectorAll(".js-current-tab-list")
 const progressBarElem = document.querySelector(".js-progress-bar")
 
-function refreshProgressBar(countPickedTabs) {
-    if (countPickedTabs > (allTabsIds.length / 2)) {
-        progressBarElem.style.backgroundColor = "#ffd43f" 
+allTabsLists.forEach(item => {
+    item.addEventListener("click", () => {
+        getCurrentTabsList()
+        if (!item.classList.contains("active")) {
+            item.classList.add("active")
+        }
+    })
+})
+
+function getCurrentTabsList() {
+    allTabsLists.forEach(item => {
+        item.classList.remove("active")
+})}
+
+function refreshProgressBar(countPickedTabs, countAllTabs) {
+    let bgColor = ""
+    if (countPickedTabs > (countAllTabs / 2)) {
+        bgColor = "#ffd43f"
     }
-    if (countPickedTabs === allTabsIds.length) {
-        progressBarElem.style.backgroundColor = "#73BE43" 
+    if (countPickedTabs === countAllTabs) {
+        bgColor = "#73BE43"
     }
-    progressBarElem.style.width = countPickedTabs * (1000 / allTabsIds.length) + "px"
+    progressBarElem.style.backgroundColor = bgColor
+
+    progressBarElem.style.width = countPickedTabs * (maxWidth / countAllTabs) + "px"
 }
 
 function isReadyToContinue() {
     if (pickedTabsIds.length == allTabsIds.length) {
         continueBtn.classList.add("active")
         continueBtn.removeAttribute("disabled")
-    } 
+    }
 }
 
 function showCurrentList(idActiveTab) {
@@ -57,7 +77,7 @@ allTabsElems.forEach((tab, tabId) => {
         refreshTabs()
         tab.classList.add("active")
         let tabId = calculateCurrentTabId()
-        refreshProgressBar(pickedTabsIds.length)
+        refreshProgressBar(pickedTabsIds.length, allTabsIds.length)
         showCurrentList(tabId)
         isReadyToContinue()
     })

@@ -19,6 +19,7 @@
 .main__tabs-wrapper {
     display: flex;
     flex-direction: row;
+    margin-bottom: 56px;
 }
 
 .main__tabs-list {
@@ -117,7 +118,7 @@
 .main__button-continue {
     width: 189px;
     align-self: center;
-    margin-top: 56px;
+    
     box-sizing: border-box;
     border-radius: 8px;
     padding: 14px 45px;
