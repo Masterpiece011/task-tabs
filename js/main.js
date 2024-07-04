@@ -1,29 +1,48 @@
 "use strict"
 const maxWidth = 1000
 const allTabsIds = []
-let pickedTabsIds = [0]
+let pickedTabsIds = []
 
-const allTabsLists = document.querySelectorAll(".js-tabs-list")
-console.log(allTabsLists);
+let currentContents = []
+let currentTabs = []
+
+const allTabsWrappers = document.querySelectorAll(".js-tab")
 
 const continueBtn = document.querySelector(".js-continue-btn")
 const allTabsElems = document.querySelectorAll(".js-tabs-item")
-const allCurrentTabListElems = document.querySelectorAll(".js-current-tab-list")
 const progressBarElem = document.querySelector(".js-progress-bar")
 
-allTabsLists.forEach(item => {
-    item.addEventListener("click", () => {
-        getCurrentTabsList()
-        if (!item.classList.contains("active")) {
-            item.classList.add("active")
+function changeActiveTab() {
+    currentTabs.forEach((tab) => {
+        tab.classList.remove("active")
+    })
+}
+
+function getActiveTab(allTabs) {
+    let activeTabId = 0
+    allTabs.forEach((tab, i) => {
+        if (tab.classList.contains("active")) {
+            activeTabId = i
         }
     })
-})
+    return activeTabId
+}
 
-function getCurrentTabsList() {
-    allTabsLists.forEach(item => {
+function changeActiveContent(activeTabId, contents) {
+    contents.forEach((contents, i) => {
+        if (activeTabId == i) {
+            contents.classList.add("active")
+        } else {
+            contents.classList.remove("active")
+        }
+    })
+}
+
+function removeAcitveTabsClass() {
+    allTabsWrappers.forEach(item => {
         item.classList.remove("active")
-})}
+    })
+}
 
 function refreshProgressBar(countPickedTabs, countAllTabs) {
     let bgColor = ""
@@ -45,45 +64,41 @@ function isReadyToContinue() {
     }
 }
 
-function showCurrentList(idActiveTab) {
-    allCurrentTabListElems[idActiveTab].classList.add("active")
-}
-
-function refreshTabs() {
-    allTabsElems.forEach(tab => {
-        tab.classList.remove("active")
-    })
-    allCurrentTabListElems.forEach(list => {
-        list.classList.remove("active")
-    })
-}
-
-function calculateCurrentTabId() {
-    let activeTabId = 0
-    allTabsElems.forEach((tab, i) => {
-        if (tab.classList.contains("active")) {
-            if (!pickedTabsIds.includes(i)) {
-                pickedTabsIds.push(i)
-            }
-            activeTabId = i
+function isPickedTab() {
+    allTabsElems.forEach((tab, tabId) => {
+        if (tab.classList.contains("active") && !pickedTabsIds.includes(tabId)) {
+            pickedTabsIds.push(tabId)
         }
     })
-    return activeTabId
 }
+
+allTabsWrappers.forEach(item => {
+    item.addEventListener("mouseover", () => {
+        if (!item.classList.contains("active")) {
+            removeAcitveTabsClass()
+            item.classList.add("active")
+            currentContents = item.querySelectorAll(".js-current-tab-list")
+            currentTabs = item.querySelectorAll(".js-tabs-item")
+        }
+    })
+})
 
 allTabsElems.forEach((tab, tabId) => {
     allTabsIds.push(tabId)
+    isPickedTab()
     tab.addEventListener("click", () => {
-        refreshTabs()
+        changeActiveTab()
         tab.classList.add("active")
-        let tabId = calculateCurrentTabId()
-        refreshProgressBar(pickedTabsIds.length, allTabsIds.length)
-        showCurrentList(tabId)
+        
+        let tabId = getActiveTab(currentTabs)
+
+        changeActiveContent(tabId, currentContents)
+        if (pickedTabsIds.length !== allTabsElems.length) {
+            isPickedTab()
+        }
+        refreshProgressBar(pickedTabsIds.length, allTabsElems.length)
         isReadyToContinue()
     })
 })
 
-progressBarElem.style.width = (1000 / allTabsIds.length) + "px"
-
-
-
+progressBarElem.style.width = pickedTabsIds.length * (maxWidth / allTabsIds.length) + "px"
